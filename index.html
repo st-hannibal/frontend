@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Todo App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/calendar.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Todos</h1>
+            <nav>
+                <button data-tab="list" class="active">Todo List</button>
+                <button data-tab="calendar">Calendar</button>
+                <button data-tab="daily-view">Daily/Weekly</button>
+            </nav>
+        </header>
+        <main>
+            <section id="list" class="tab-content active">
+                <section class="input-section">
+                    <input type="text" id="new-task-title" placeholder="Add task title">
+                    <input type="text" id="new-task-body" placeholder="Add task description">
+                    <div class="controls">
+                        <select id="priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                        <input type="date" id="due-date">
+                        <button id="add-button">Add</button>
+                    </div>
+                </section>
+                <section class="list-section">
+                    <ul id="todo-list">
+                        </ul>
+                    <div class="filter-controls">
+                        <button data-filter="all" class="active">All</button>
+                        <button data-filter="low">Low</button>
+                        <button data-filter="medium">Medium</button>
+                        <button data-filter="high">High</button>
+                    </div>
+                </section>
+            </section>
+
+            <section id="calendar" class="tab-content">
+                <div class="calendar-header">
+                    <button id="prev-month">&lt;</button>
+                    <h2 id="current-month"></h2>
+                    <button id="next-month">&gt;</button>
+                </div>
+                <div class="calendar-grid">
+                    </div>
+            </section>
+
+            <section id="daily-view" class="tab-content">
+                <div class="daily-view-controls">
+                    <select id="week-selector">
+                        </select>
+                    <div class="day-tasks">
+                        </div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2025 My Interactive Todo App</p>
+        </footer>
+    </div>
+    <script src="js/script.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/daily-view.js"></script>
+</body>
+</html>

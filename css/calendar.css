@@ -1,0 +1,226 @@
+
+/* css/calendar.css */
+/* Calendar Container */
+#calendar {
+    padding: 20px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.calendar-header button:hover {
+    background-color: #2980b9;
+}
+
+#current-month {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--primary-color);
+}
+
+/* Calendar Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    background-color: var(--light-bg);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Day Headers */
+.day-header {
+    text-align: center;
+    padding: 10px;
+    font-weight: 600;
+    color: var(--primary-color);
+    background-color: white;
+    border-radius: 5px;
+}
+
+/* Day Cells */
+.day {
+    min-height: 80px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.day:hover {
+    background-color: var(--light-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.day.today {
+    border: 2px solid var(--primary-color);
+    font-weight: bold;
+}
+
+.day.other-month {
+    color: #bbb;
+    background-color: #f9f9f9;
+}
+
+/* Task Indicators */
+.task-indicators {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: auto;
+    justify-content: flex-end;
+}
+
+.task-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: white;
+}
+
+.task-indicator.high {
+    background-color: var(--high-color);
+}
+
+.task-indicator.medium {
+    background-color: var(--medium-color);
+}
+
+.task-indicator.low {
+    background-color: var(--low-color);
+}
+
+/* Weekly/Daily View */
+#daily-view {
+    padding: 20px;
+}
+
+.daily-view-controls {
+    margin-bottom: 20px;
+}
+
+#week-selector {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.day-tasks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.day-tasks h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.day-tasks ul {
+    list-style-type: none;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: var(--shadow);
+}
+
+.day-tasks li {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-tasks li:last-child {
+    border-bottom: none;
+}
+
+.day-tasks .priority-low,
+.day-tasks .priority-medium,
+.day-tasks .priority-high {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    color: white;
+    font-weight: 600;
+}
+
+.day-tasks .priority-low {
+    background-color: var(--low-color);
+}
+
+.day-tasks .priority-medium {
+    background-color: var(--medium-color);
+}
+
+.day-tasks .priority-high {
+    background-color: var(--high-color);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .calendar-grid {
+        gap: 2px;
+    }
+    
+    .day {
+        min-height: 60px;
+        padding: 2px;
+    }
+    
+    .day-tasks {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animations */
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.calendar-grid {
+    animation: scaleIn 0.3s ease-out;
+}
