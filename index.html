@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Todo App</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>My Todos</h1>
+<body data-theme="light"> <div class="container">
+        <header class="app-header">
+            <div class="logo">
+                 <h1>My Todos & Kanban</h1>
+            </div>
             <nav>
                 <button data-tab="list" class="active">Todo List</button>
                 <button data-tab="calendar">Calendar</button>
                 <button data-tab="daily-view">Daily/Weekly</button>
+                <button data-tab="kanban">Kanban Board</button>
             </nav>
+            <button id="theme-switcher" class="theme-btn">🌙</button>
         </header>
         <main>
             <section id="list" class="tab-content active">
@@ -25,22 +28,36 @@
                     <div class="controls">
                         <select id="priority">
                             <option value="low">Low</option>
-                            <option value="medium">Medium</option>
+                            <option value="medium" selected>Medium</option>
                             <option value="high">High</option>
+                            <option value="sehr-hoch">Very High</option>
+                        </select>
+                        <select id="status">
+                            <option value="todo" selected>To Do</option>
+                            <option value="inprogress">In Progress</option>
+                            <option value="done">Done</option>
                         </select>
                         <input type="date" id="due-date">
-                        <button id="add-button">Add</button>
+                        <button id="add-button-list" class="btn-primary">Add Task</button>
                     </div>
                 </section>
                 <section class="list-section">
-                    <ul id="todo-list">
-                        </ul>
-                    <div class="filter-controls">
+                    <div class="filter-controls list-filter-controls">
+                        <span>Filter by Priority:</span>
                         <button data-filter="all" class="active">All</button>
                         <button data-filter="low">Low</button>
                         <button data-filter="medium">Medium</button>
                         <button data-filter="high">High</button>
+                        <button data-filter="sehr-hoch">Very High</button>
+                        <br>
+                        <span>Filter by Status:</span>
+                        <button data-status-filter="all-status" class="active">All</button>
+                        <button data-status-filter="todo">To Do</button>
+                        <button data-status-filter="inprogress">In Progress</button>
+                        <button data-status-filter="done">Done</button>
                     </div>
+                    <ul id="todo-list">
+                        </ul>
                 </section>
             </section>
 
@@ -56,19 +73,138 @@
 
             <section id="daily-view" class="tab-content">
                 <div class="daily-view-controls">
+                    <label for="week-selector">Select Week:</label>
                     <select id="week-selector">
                         </select>
-                    <div class="day-tasks">
-                        </div>
+                </div>
+                <div class="day-tasks">
+                    </div>
+            </section>
+
+            <section id="kanban" class="tab-content">
+                <div class="kanban-controls">
+                    <label for="kanban-filter-date-range">View:</label>
+                    <select id="kanban-filter-date-range">
+                        <option value="today">Today</option>
+                        <option value="current_week">This Week</option>
+                        <option value="current_month">This Month</option>
+                        <option value="all">All Tasks</option>
+                    </select>
+                    <button id="kanban-add-task-btn" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i> New Task
+                    </button>
+                </div>
+                <div class="board-container-kanban">
+                    <section class="board-column" id="kanban-todo-column">
+                        <header class="column-header">
+                            <h2>⭕ To Do</h2>
+                        </header>
+                        <div class="tasks-container" id="kanban-todo-tasks" data-status="todo">
+                            </div>
+                    </section>
+                    <section class="board-column" id="kanban-inprogress-column">
+                        <header class="column-header">
+                            <h2>🔄 In Progress</h2>
+                        </header>
+                        <div class="tasks-container" id="kanban-inprogress-tasks" data-status="inprogress">
+                            </div>
+                    </section>
+                    <section class="board-column" id="kanban-done-column">
+                        <header class="column-header">
+                            <h2>✅ Done</h2>
+                        </header>
+                        <div class="tasks-container" id="kanban-done-tasks" data-status="done">
+                            </div>
+                    </section>
                 </div>
             </section>
         </main>
+
+        <div class="modal" id="task-modal">
+            <div class="modal-content">
+                <span class="close-modal-btn">&times;</span>
+                <h3 id="modal-title">Add/Edit Task</h3>
+                <form id="task-form">
+                    <input type="hidden" id="task-id">
+                    <div class="form-group">
+                        <label for="modal-task-title">Title:</label>
+                        <input type="text" id="modal-task-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-task-description">Notes:</label>
+                        <textarea id="modal-task-description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-task-priority">Priority:</label>
+                        <select id="modal-task-priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="sehr-hoch">Very High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-task-due-date">Due Date:</label>
+                        <input type="date" id="modal-task-due-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-task-status">Status:</label>
+                        <select id="modal-task-status">
+                            <option value="todo">To Do</option>
+                            <option value="inprogress">In Progress</option>
+                            <option value="done">Done</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subtasks:</label>
+                        <div id="modal-subtasks-container">
+                            </div>
+                        <button type="button" id="modal-add-subtask-btn" class="btn-secondary">
+                            <i class="fa-solid fa-plus"></i> Add Subtask
+                        </button>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Save Task</button>
+                        <button type="button" class="btn-secondary cancel-modal-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <template id="kanban-task-template">
+            <article class="task-card" draggable="true">
+                <header class="task-header">
+                    <h3 class="task-title-kanban"></h3>
+                    <div class="task-actions-kanban">
+                        <button class="edit-task-btn-kanban"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="delete-task-btn-kanban"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </header>
+                <div class="task-description-kanban"></div>
+                <div class="task-subtasks-kanban">
+                    <h4>Subtasks:</h4>
+                    <ul class="subtasks-list-kanban"></ul>
+                    <div class="progress-bar-kanban">
+                        <div class="progress-fill-kanban"></div>
+                        <span class="progress-text-kanban">0%</span>
+                    </div>
+                </div>
+                <footer class="task-footer-kanban">
+                    <span class="task-priority-kanban"></span>
+                    <span class="task-due-date-kanban"></span>
+                </footer>
+            </article>
+        </template>
+
         <footer>
-            <p>&copy; 2025 My Interactive Todo App</p>
+            <p>&copy; <span id="current-year"></span> My Interactive Todo App</p>
         </footer>
     </div>
+
+    <script src="js/storage.js"></script>
     <script src="js/script.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/daily-view.js"></script>
+    <script src="js/kanban.js"></script>
 </body>
 </html>
